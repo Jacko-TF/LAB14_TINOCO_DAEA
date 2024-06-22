@@ -6,6 +6,7 @@
         public string FirstName { get; set; }
         public string LasttName { get; set; }
         public string DocumentNumber { get; set; }
+        public string Email { get; set; } = string.Empty;
         public bool Active { get; set; } = true;
     }
 }

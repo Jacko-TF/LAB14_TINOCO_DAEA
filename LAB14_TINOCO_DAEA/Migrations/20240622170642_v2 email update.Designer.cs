@@ -4,6 +4,7 @@ using LAB14_TINOCO_DAEA.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAB14_TINOCO_DAEA.Migrations
 {
     [DbContext(typeof(MarketContext))]
-    partial class MarketContextModelSnapshot : ModelSnapshot
+    [Migration("20240622170642_v2 email update")]
+    partial class v2emailupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

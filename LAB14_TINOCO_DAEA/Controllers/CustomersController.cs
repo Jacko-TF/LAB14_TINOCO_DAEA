@@ -84,7 +84,7 @@ namespace LAB14_TINOCO_DAEA.Controllers
         // POST: api/Customers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(RequetsCustomerV1 requestCustomer)
+        public async Task<ActionResult<Customer>> PostCustomer(RequestCustomerV1 requestCustomer)
         {
             Customer customer = new();
             customer.FirstName = requestCustomer.FirstName;

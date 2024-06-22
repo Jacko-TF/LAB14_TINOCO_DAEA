@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LAB14_TINOCO_DAEA.Models;
+using LAB14_TINOCO_DAEA.Models.Request;
 
 namespace LAB14_TINOCO_DAEA.Controllers
 {
