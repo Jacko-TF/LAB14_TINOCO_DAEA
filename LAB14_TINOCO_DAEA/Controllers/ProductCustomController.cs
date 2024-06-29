@@ -1,5 +1,6 @@
 ﻿using LAB14_TINOCO_DAEA.Models;
 using LAB14_TINOCO_DAEA.Models.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace LAB14_TINOCO_DAEA.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<Product>> InsertProduct([FromBody] RequestProductV1 requestProduct)
         {
@@ -34,6 +36,7 @@ namespace LAB14_TINOCO_DAEA.Controllers
             return CreatedAtAction("InsertProduct", new { id = product.ProductID }, product);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpDelete]
         public async Task<IActionResult> DeleteProduct(RequestProductV2 requestProduct)
         {
@@ -55,6 +58,7 @@ namespace LAB14_TINOCO_DAEA.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPut]
         public async Task<ActionResult<Customer>> UpdateProductPrice([FromBody] RequestProductV3 requestProductV3)
         {
@@ -73,6 +77,7 @@ namespace LAB14_TINOCO_DAEA.Controllers
             return CreatedAtAction("UpdateProductPrice", new { id = product.ProductID }, product);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpDelete]
         public async Task<IActionResult> DeleteProductList(List<RequestProductV2> requestProductV2s)
         {

@@ -1,5 +1,6 @@
 ﻿using LAB14_TINOCO_DAEA.Models;
 using LAB14_TINOCO_DAEA.Models.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace LAB14_TINOCO_DAEA.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<Invoice>> InsertInvoice([FromBody] RequestInvoiceV1 requestInvoiceV1)
         {
@@ -26,19 +28,22 @@ namespace LAB14_TINOCO_DAEA.Controllers
                 return NotFound();
             }
 
-            Invoice invoice = new();
-            invoice.CustomerID = requestInvoiceV1.CustomerID;
-            invoice.Date = requestInvoiceV1.Date;
-            invoice.InvoiceNumber = requestInvoiceV1.InvoiceNumber;
-            invoice.Total = requestInvoiceV1.Total;
-            invoice.Customer = customer;
+            var invoice = new Invoice
+            {
+                CustomerID = requestInvoiceV1.CustomerID,
+                Date = requestInvoiceV1.Date,
+                InvoiceNumber = requestInvoiceV1.InvoiceNumber,
+                Total = requestInvoiceV1.Total,
+                Customer = customer
+            };
 
             _context.Invoices.Add(invoice);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("InsertInvoice", new { id = invoice.InvoiceID }, invoice);
+            return CreatedAtAction(nameof(InsertInvoice), new { id = invoice.InvoiceID }, invoice);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<List<Invoice>>> InsertInvoiceList([FromBody] RequestInvoiceV2 requestInvoiceV2)
         {
@@ -51,20 +56,13 @@ namespace LAB14_TINOCO_DAEA.Controllers
                     return NotFound();
                 }
 
-                List<Invoice> invoiceList = new();
-
-                foreach (var invoiceRequest in requestInvoiceV2.requestInvoiceV3s)
+                List<Invoice> invoiceList = requestInvoiceV2.requestInvoiceV3s.Select(x => new Invoice
                 {
-                    Invoice invoice = new();
-                    invoice.CustomerID = requestInvoiceV2.CustomerID;
-                    invoice.Date = invoiceRequest.Date;
-                    invoice.InvoiceNumber = invoiceRequest.InvoiceNumber;
-                    invoice.Total = invoiceRequest.Total;
-
-                    _context.Invoices.Add(invoice);
-
-                    invoiceList.Add(invoice);
-                }
+                    Date = x.Date,
+                    Total = x.Total,
+                    InvoiceNumber= x.InvoiceNumber,
+                    CustomerID = customer.CustomerID,
+                }).ToList();
 
                 await _context.SaveChangesAsync();
 
@@ -77,6 +75,7 @@ namespace LAB14_TINOCO_DAEA.Controllers
             
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<Invoice>> InsertInvoiceDetail([FromBody] RequestInvoiceV4 requestInvoiceV4)
         {

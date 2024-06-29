@@ -3,6 +3,7 @@ using LAB14_TINOCO_DAEA.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LAB14_TINOCO_DAEA.Controllers
 {
@@ -17,6 +18,7 @@ namespace LAB14_TINOCO_DAEA.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<Customer>> InsertCustomer(RequestCustomerV1 requestCustomerV1)
         {
@@ -36,6 +38,7 @@ namespace LAB14_TINOCO_DAEA.Controllers
             return CreatedAtAction("InsertCustomer", new { id = customer.CustomerID }, customer);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpDelete]
         public async Task<IActionResult> DeleteCustomer(RequestCustomerV2 requestCustomerV2)
         {
@@ -57,6 +60,7 @@ namespace LAB14_TINOCO_DAEA.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPut]
         public async Task<ActionResult<Customer>> UpdateCustomerDocumentNumberAndEmail([FromBody] RequestCustomerV3 requestCustomerV3)
         {
